@@ -58,6 +58,8 @@ deck = [
     ("King", "Hearts")
 ]
 
+balance = 100
+
 def rank(card: tuple) -> int:
     # Returns the rank of a card as an integer.
     if card[0] == "2":
@@ -88,7 +90,7 @@ def rank(card: tuple) -> int:
         return 14
 
 def suit(card: tuple) -> str:
-    # Returns the suit of a card an a string.
+    # Returns the suit of a card as a string.
     return card[1]
 
 def draw_cards() -> tuple:
@@ -106,13 +108,13 @@ def draw_cards() -> tuple:
 def hand_ranking(hand: list) -> int:
     # Checks to see if a hand matches any hand ranking and returns an integer corresponding to the hand ranking.
     # Straight Flush: returns 5
-    if rank(hand[0]) - 1 == rank(hand[1]) and rank(hand[1]) - 1 == rank(hand[2]) and suit(hand[0]) == suit(hand[1]) and suit(hand[1]) == suit(hand[2]):
+    if ((rank(hand[0]) - 1 == rank(hand[1]) and rank(hand[1]) - 1 == rank(hand[2])) or (rank(hand[0]) == 3 and rank(hand[1]) == 2 and rank(hand[2]) == 14)) and suit(hand[0]) == suit(hand[1]) and suit(hand[1]) == suit(hand[2]):
         return 5
     # Three-of-a-Kind: returns 4
     elif rank(hand[0]) == rank(hand[1]) and rank(hand[1]) == rank(hand[2]):
         return 4
     # Straight: returns 3
-    elif rank(hand[0]) - 1 == rank(hand[1]) and rank(hand[1]) - 1 == rank(hand[2]):
+    elif (rank(hand[0]) - 1 == rank(hand[1]) and rank(hand[1]) - 1 == rank(hand[2])) or (rank(hand[0]) == 3 and rank(hand[1]) == 2 and rank(hand[2]) == 14):
         return 3
     # Flush: returns 2
     elif suit(hand[0]) == suit(hand[1]) and suit(hand[1]) == suit(hand[2]):
@@ -127,3 +129,35 @@ def hand_ranking(hand: list) -> int:
 def high_card(hand: list) -> tuple:
     # Returns the card of highest rank in a hand.
     return hand[0]
+
+def ante_bet() -> int:
+    # Asks the user how much they'd like to bet on the ante. Keeps asking until a valid number is entered.
+    global balance
+    while True:
+        try:
+            ante = int(input("Ante: "))
+            if ante <= 0:
+                print("You must bet at least $1.")
+            elif ante > balance:
+                print("Bet exceeds available balance.")
+            else: 
+                balance -= ante
+                return ante
+        except ValueError:
+            print("Not a valid number. Try again.")
+
+def ante_bonus(hand: list, ante: int):
+    # Adds an ante bonus to the player's balance based on what hand ranking they have.
+    global balance
+    # Straight Flush: pays 5:1 on the ante
+    if hand_ranking(hand) == 5:
+        balance += (ante * 5)
+    # Three-of-a-Kind: pays 4:1 on the ante
+    if hand_ranking(hand) == 4:
+        balance += (ante * 4)
+    # Straight: pays 1:1 on the ante
+    if hand_ranking(hand) == 3:
+        balance += ante
+
+def compare_hands(player_hand: list, dealer_hand: list):
+    return
