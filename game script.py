@@ -6,13 +6,14 @@ import time
 pygame.init()
 screen = pygame.display.set_mode((1500, 1000))
 pygame.display.set_caption("Luigi's Casino")
-pygame.display.set_icon(pygame.image.load("LuigiLogic.png"))
+pygame.display.set_icon(pygame.image.load("assets/LuigiLogic.png"))
 
 
 # Load fonts and images.
-pokertable = pygame.image.load("TableBackground.jpg").convert()
-superfont = pygame.font.Font("SuperMario256.ttf", size = 42)
-titletext = superfont.render("Welcome to Luigi's Casino!", True, (255, 255, 255))
+pokertable = pygame.image.load("assets/TableBackground.jpg").convert()
+pokertable = pygame.transform.smoothscale_by(pokertable, 0.5)
+superfont = pygame.font.Font("assets/SuperMario256.ttf", size = 42)
+titletext = superfont.render("Welcome to Luigi's Casino!\nTesting!", True, (255, 255, 255))
 text_rect = titletext.get_rect(center=(1500 // 2, 50))
 
 
@@ -47,11 +48,11 @@ class Button():
 
 
     
-tbuttonimg = pygame.image.load("Testbutton.png").convert_alpha()
+tbuttonimg = pygame.image.load("assets/Testbutton.png").convert_alpha()
 tbutton = Button(750, 500, tbuttonimg, .5)
 
 # Infinite music loop. Rejoice!
-pygame.mixer.music.load("LuigiBalatro.mp3")
+pygame.mixer.music.load("assets/LuigiBalatro.mp3")
 pygame.mixer.music.set_volume(.75)
 pygame.mixer.music.play(-1)
 
