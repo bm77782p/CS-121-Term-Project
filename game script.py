@@ -51,8 +51,17 @@ class Button():
 tbuttonimg = pygame.image.load("assets/Testbutton.png").convert_alpha()
 tbutton = Button(750, 500, tbuttonimg, .5)
 
+# Button to swap music tracks
+music_toggle_image = pygame.image.load("assets/MusicSwitcher.png").convert()
+music_toggle_button = Button(120, 880, music_toggle_image, .35)
+music_tracks = ["assets/LuigiBalatro.mp3", "assets/Pi'illoCastle.mp3"]
+selected_track = 0
+
+
+
+
 # Infinite music loop. Rejoice!
-pygame.mixer.music.load("assets/LuigiBalatro.mp3")
+pygame.mixer.music.load(music_tracks[selected_track])
 pygame.mixer.music.set_volume(.75)
 pygame.mixer.music.play(-1)
 
@@ -62,10 +71,22 @@ while running:
     screen.blit(pokertable, (0, 0))
     screen.blit(titletext, text_rect)
     tbutton.draw()
-
+    music_toggle_button.draw()
     
     if tbutton.click():
         print("Clicked!")
+
+    if music_toggle_button.click():
+        if selected_track == len(music_tracks)-1:\
+            selected_track = 0
+        else:
+            selected_track += 1
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(music_tracks[selected_track])
+        pygame.mixer.music.play(-1)
+
+
+
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
