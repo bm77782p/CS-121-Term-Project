@@ -54,7 +54,10 @@ tbutton = Button(750, 500, tbuttonimg, .5)
 # Button to swap music tracks
 music_toggle_image = pygame.image.load("assets/MusicSwitcher.png").convert()
 music_toggle_button = Button(120, 880, music_toggle_image, .35)
-music_tracks = ["assets/LuigiBalatro.mp3", "assets/Pi'illoCastle.mp3"]
+music_tracks = ["assets/LuigiBalatro.mp3",
+                "assets/Pi'illoCastle.mp3",
+                "assets/CastleFunk.mp3",
+                "assets/ToadTownBowser.mp3"]
 selected_track = 0
 
 
