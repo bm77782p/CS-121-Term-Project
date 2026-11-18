@@ -4,16 +4,16 @@ import time
 
 # Makes the game window.
 pygame.init()
-screen = pygame.display.set_mode((1024, 768))
+screen = pygame.display.set_mode((1500, 1000))
 pygame.display.set_caption("Luigi's Casino")
 pygame.display.set_icon(pygame.image.load("LuigiLogic.png"))
 
 
 # Load fonts and images.
-pokertable = pygame.image.load("TableBackground.png").convert()
+pokertable = pygame.image.load("TableBackground.jpg").convert()
 superfont = pygame.font.Font("SuperMario256.ttf", size = 42)
 titletext = superfont.render("Welcome to Luigi's Casino!", True, (255, 255, 255))
-text_rect = titletext.get_rect(center=(1024 // 2, 50))
+text_rect = titletext.get_rect(center=(1500 // 2, 50))
 
 
 # Button class, to make buttons.
@@ -26,6 +26,10 @@ class Button():
 
 
     def draw(self):
+        # Drawing the button on screen
+        screen.blit(self.image, self.rect)
+    
+    def click(self):
         action = False
 
         # Getting the mouse position, and checking if it's over the button
@@ -39,15 +43,12 @@ class Button():
             self.clicked = False
             action = False
 
-        # Drawing the button on screen
-        screen.blit(self.image, self.rect)
-
         return action
 
 
     
 tbuttonimg = pygame.image.load("Testbutton.png").convert_alpha()
-tbutton = Button(500, 500, tbuttonimg, .5)
+tbutton = Button(750, 500, tbuttonimg, .5)
 
 # Infinite music loop. Rejoice!
 pygame.mixer.music.load("LuigiBalatro.mp3")
@@ -59,8 +60,10 @@ running = True
 while running:
     screen.blit(pokertable, (0, 0))
     screen.blit(titletext, text_rect)
+    tbutton.draw()
+
     
-    if tbutton.draw():
+    if tbutton.click():
         print("Clicked!")
     
     for event in pygame.event.get():
